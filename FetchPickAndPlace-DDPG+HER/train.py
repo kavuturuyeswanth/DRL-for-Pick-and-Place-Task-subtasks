@@ -1,5 +1,6 @@
 import numpy as np
 import gymnasium as gym
+import gymnasium_robotics
 import os, sys
 from arguments import get_args
 from mpi4py import MPI
