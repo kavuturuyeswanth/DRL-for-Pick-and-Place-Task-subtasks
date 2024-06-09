@@ -129,7 +129,7 @@ class ddpg_agent:
 
                             # feed the actions into the environment
                             action[3] = 0.05
-                            observation_new, reward, _, info = self.env.step(action,object_pos_goal)
+                            observation_new, reward, terminated, truncated, info = self.env.step(action,object_pos_goal)
                             
                             'calculate the new gripper position after one step action and update achieved_goal'
                             objectPos_new = observation_new["observation"][3:6]
@@ -359,7 +359,7 @@ class ddpg_agent:
 
                 actions[3] = 0.05
 
-                observation_new, reward, _, info = self.env.step(actions, object_pos_goal)
+                observation_new, reward, terminated, truncated, info = self.env.step(actions, object_pos_goal)
                 obs = observation_new["observation"]
                 g = observation_new["desired_goal"]
 
@@ -390,7 +390,7 @@ class ddpg_agent:
 
                 action[3] = -0.01
 
-                obsDataNew, reward, done, info = self.env.step(action, objectPos)
+                obsDataNew, reward, terminated, truncated, info = self.env.step(action, objectPos)
                 timeStep += 1
 
                 objectPos = obsDataNew["observation"][3:6]
@@ -415,7 +415,7 @@ class ddpg_agent:
                     action[i] = (goal - objectPos)[i] * 6
 
                 action[3] = -0.02
-                obsDataNew, reward, done, info = self.env.step(action, goal)
+                obsDataNew, reward, terminated, truncated, info = self.env.step(action, goal)
                 timeStep += 1
 
                 objectPos = obsDataNew["observation"][3:6]
@@ -434,7 +434,7 @@ class ddpg_agent:
                 action = [0, 0, 0, 0]
                 action[3] = -0.01  # keep the gripper closed
 
-                obsDataNew, reward, done, info = self.env.step(action,goal)
+                obsDataNew, reward, terminated, truncated, info = self.env.step(action,goal)
                 timeStep += 1
 
                 objectPos = obsDataNew["observation"][3:6]
