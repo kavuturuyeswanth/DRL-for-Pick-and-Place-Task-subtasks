@@ -85,7 +85,7 @@ class ddpg_agent:
                     # reset the environment
                     while len(ep_obs) < 50:
                         timeStep = 0
-                        observation = self.env.reset()
+                        observation,_ = self.env.reset()
                         obs = observation["observation"]
                         ag = observation["achieved_goal"]
                         goal = observation["desired_goal"]
@@ -326,7 +326,7 @@ class ddpg_agent:
         tot_success = 0
         for test in range(100):  # 10
             timeStep = 0
-            observation = self.env.reset()
+            observation,_ = self.env.reset()
             obs = observation["observation"]
             goal = observation["desired_goal"]
             objectPos = observation["observation"][3:6]
