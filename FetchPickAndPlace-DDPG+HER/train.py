@@ -15,7 +15,7 @@ train the agent, the MPI part code is copy from openai baselines(https://github.
 
 
 def get_env_params(env, seed):
-    obs = env.reset(seed=seed)
+    obs,_ = env.reset(seed=seed)
     # close the environment
     params = {
         "obs": obs["observation"].shape[0],  # 3
