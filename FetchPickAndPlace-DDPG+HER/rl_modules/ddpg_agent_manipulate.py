@@ -83,7 +83,7 @@ class ddpg_agent:
                     ep_obs, ep_ag, ep_g, ep_actions = [], [], [], []
                     # reset the environment
                     while len(ep_obs) < 50:
-                        observation = self.env.reset()
+                        observation,_ = self.env.reset()
                         obs = observation["observation"]
                         ag = observation["achieved_goal"]
                         goal = observation["desired_goal"]
@@ -115,7 +115,7 @@ class ddpg_agent:
 
                             action[3] = 0.05 #open
 
-                            obsDataNew, reward, done, info = self.env.step(action, objectPos)
+                            obsDataNew, reward, terminated, truncated, info = self.env.step(action, objectPos)
                             timeStep += 1
 
                             objectPos = obsDataNew['observation'][3:6]
@@ -140,7 +140,7 @@ class ddpg_agent:
                             
                             #self.env.render()
                             action[3]= -0.01
-                            observation_new, reward, _, info = self.env.step(action, objectPos)
+                            observation_new, reward, terminated, truncated, info = self.env.step(action, objectPos)
 
                            
                             'calculate th new gripper position after one step action and update achieved_goal'
@@ -334,7 +334,7 @@ class ddpg_agent:
         tot_success = 0
         for test in range(100):  # 10
 
-            observation = self.env.reset()
+            observation,_ = self.env.reset()
             obs = observation["observation"]
             lastObs = observation
             goal = lastObs["desired_goal"]
@@ -360,7 +360,7 @@ class ddpg_agent:
 
                 action[len(action) - 1] = 0.05  # open
 
-                obsDataNew, reward, done, info = self.env.step(action, objectPos)
+                obsDataNew, reward, terminated, truncated, info = self.env.step(action, objectPos)
                 timeStep += 1
 
                 objectPos = obsDataNew["observation"][3:6]
@@ -385,7 +385,7 @@ class ddpg_agent:
                 
                 actions[3] = -0.01
                 
-                observation_new, _, _, info = self.env.step(actions, objectPos)
+                observation_new, _, _, _, info = self.env.step(actions, objectPos)
                 objectPos = observation_new['observation'][3:6]
                 object_rel_pos = observation_new['observation'][6:9]
 
@@ -409,7 +409,7 @@ class ddpg_agent:
                     action[i] = (goal - objectPos)[i] * 6
 
                 action[3] = -0.01
-                obsDataNew, reward, done, info = self.env.step(action, goal)
+                obsDataNew, reward, terminated, truncated, info = self.env.step(action, goal)
                 timeStep += 1
 
                 objectPos = obsDataNew["observation"][3:6]
@@ -422,7 +422,7 @@ class ddpg_agent:
                 action = [0, 0, 0, 0]
                 action[3] = -0.01  # keep the gripper closed
 
-                obsDataNew, reward, done, info = self.env.step(action, goal)
+                obsDataNew, reward, terminated, truncated, info = self.env.step(action, goal)
                 timeStep += 1
 
                 objectPos = obsDataNew["observation"][3:6]
